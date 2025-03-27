@@ -14,7 +14,7 @@ var (
 		ChainID: big.NewInt(2417),
 	}
 	BdagTestnetChainConfig = &BdagChainConfig{
-		ChainID: big.NewInt(24171),
+		ChainID: big.NewInt(1043),
 	}
 	BdagMixnetChainConfig = &BdagChainConfig{
 		ChainID: big.NewInt(24172),
