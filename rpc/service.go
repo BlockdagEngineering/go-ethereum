@@ -60,7 +60,7 @@ type callback struct {
 func (r *serviceRegistry) registerName(name string, rcvr interface{}) error {
 	rcvrVal := reflect.ValueOf(rcvr)
 	if name == "" {
-		return fmt.Errorf("no service name for type aaaaaaaaaaaaaaaa %s", rcvrVal.Type().String())
+		return fmt.Errorf("no service name for type %s", rcvrVal.Type().String())
 	}
 	callbacks := suitableCallbacks(rcvrVal)
 	if len(callbacks) == 0 {
