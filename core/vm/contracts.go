@@ -46,6 +46,12 @@ type PrecompiledContract interface {
 	Run(input []byte) ([]byte, error) // Run runs the precompiled contract
 }
 
+// StatefulPrecompiledContract can access the EVM state during execution.
+type StatefulPrecompiledContract interface {
+	PrecompiledContract
+	RunStateful(state StateDB, input []byte) ([]byte, error)
+}
+
 // PrecompiledContractsHomestead contains the default set of pre-compiled Ethereum
 // contracts used in the Frontier and Homestead releases.
 var PrecompiledContractsHomestead = map[common.Address]PrecompiledContract{
@@ -53,6 +59,7 @@ var PrecompiledContractsHomestead = map[common.Address]PrecompiledContract{
 	common.BytesToAddress([]byte{0x2}): &sha256hash{},
 	common.BytesToAddress([]byte{0x3}): &ripemd160hash{},
 	common.BytesToAddress([]byte{0x4}): &dataCopy{},
+	ChainMetricsPrecompileAddress:     &chainMetricsPrecompile{},
 }
 
 // PrecompiledContractsByzantium contains the default set of pre-compiled Ethereum
@@ -66,6 +73,7 @@ var PrecompiledContractsByzantium = map[common.Address]PrecompiledContract{
 	common.BytesToAddress([]byte{0x6}): &bn256AddByzantium{},
 	common.BytesToAddress([]byte{0x7}): &bn256ScalarMulByzantium{},
 	common.BytesToAddress([]byte{0x8}): &bn256PairingByzantium{},
+	ChainMetricsPrecompileAddress:     &chainMetricsPrecompile{},
 }
 
 // PrecompiledContractsIstanbul contains the default set of pre-compiled Ethereum
@@ -80,6 +88,7 @@ var PrecompiledContractsIstanbul = map[common.Address]PrecompiledContract{
 	common.BytesToAddress([]byte{0x7}): &bn256ScalarMulIstanbul{},
 	common.BytesToAddress([]byte{0x8}): &bn256PairingIstanbul{},
 	common.BytesToAddress([]byte{0x9}): &blake2F{},
+	ChainMetricsPrecompileAddress:     &chainMetricsPrecompile{},
 }
 
 // PrecompiledContractsBerlin contains the default set of pre-compiled Ethereum
@@ -94,6 +103,7 @@ var PrecompiledContractsBerlin = map[common.Address]PrecompiledContract{
 	common.BytesToAddress([]byte{0x7}): &bn256ScalarMulIstanbul{},
 	common.BytesToAddress([]byte{0x8}): &bn256PairingIstanbul{},
 	common.BytesToAddress([]byte{0x9}): &blake2F{},
+	ChainMetricsPrecompileAddress:     &chainMetricsPrecompile{},
 }
 
 // PrecompiledContractsCancun contains the default set of pre-compiled Ethereum
@@ -109,6 +119,7 @@ var PrecompiledContractsCancun = map[common.Address]PrecompiledContract{
 	common.BytesToAddress([]byte{0x8}): &bn256PairingIstanbul{},
 	common.BytesToAddress([]byte{0x9}): &blake2F{},
 	common.BytesToAddress([]byte{0xa}): &kzgPointEvaluation{},
+	ChainMetricsPrecompileAddress:     &chainMetricsPrecompile{},
 }
 
 // PrecompiledContractsPrague contains the set of pre-compiled Ethereum
@@ -133,6 +144,7 @@ var PrecompiledContractsPrague = map[common.Address]PrecompiledContract{
 	common.BytesToAddress([]byte{0x11}): &bls12381Pairing{},
 	common.BytesToAddress([]byte{0x12}): &bls12381MapG1{},
 	common.BytesToAddress([]byte{0x13}): &bls12381MapG2{},
+	ChainMetricsPrecompileAddress:      &chainMetricsPrecompile{},
 }
 
 var PrecompiledContractsBLS = PrecompiledContractsPrague
@@ -190,7 +202,7 @@ func ActivePrecompiles(rules params.Rules) []common.Address {
 // - the returned bytes,
 // - the _remaining_ gas,
 // - any error that occurred
-func RunPrecompiledContract(p PrecompiledContract, input []byte, suppliedGas uint64, logger *tracing.Hooks) (ret []byte, remainingGas uint64, err error) {
+func RunPrecompiledContract(p PrecompiledContract, input []byte, suppliedGas uint64, statedb StateDB, logger *tracing.Hooks) (ret []byte, remainingGas uint64, err error) {
 	gasCost := p.RequiredGas(input)
 	if suppliedGas < gasCost {
 		return nil, 0, ErrOutOfGas
@@ -199,7 +211,12 @@ func RunPrecompiledContract(p PrecompiledContract, input []byte, suppliedGas uin
 		logger.OnGasChange(suppliedGas, suppliedGas-gasCost, tracing.GasChangeCallPrecompiledContract)
 	}
 	suppliedGas -= gasCost
-	output, err := p.Run(input)
+	var output []byte
+	if sp, ok := p.(StatefulPrecompiledContract); ok && statedb != nil {
+		output, err = sp.RunStateful(statedb, input)
+	} else {
+		output, err = p.Run(input)
+	}
 	return output, suppliedGas, err
 }
 
