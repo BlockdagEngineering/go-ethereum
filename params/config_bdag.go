@@ -11,16 +11,16 @@ type BdagChainConfig struct {
 
 var (
 	BdagMainnetChainConfig = &BdagChainConfig{
-		ChainID: big.NewInt(2417),
+		ChainID: big.NewInt(1404),
 	}
 	BdagTestnetChainConfig = &BdagChainConfig{
 		ChainID: big.NewInt(1043),
 	}
 	BdagMixnetChainConfig = &BdagChainConfig{
-		ChainID: big.NewInt(24172),
+		ChainID: big.NewInt(1046),
 	}
 	BdagPrivnetChainConfig = &BdagChainConfig{
-		ChainID: big.NewInt(24173),
+		ChainID: big.NewInt(1048),
 	}
 )
 
