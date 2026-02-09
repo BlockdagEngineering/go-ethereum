@@ -22,6 +22,9 @@ var (
 	BdagPrivnetChainConfig = &BdagChainConfig{
 		ChainID: big.NewInt(24173),
 	}
+	BdagPrivnetChainConfig = &BdagChainConfig{
+		ChainID: big.NewInt(8008),
+	}
 )
 
 func init() {
