@@ -22,7 +22,7 @@ var (
 	BdagPrivnetChainConfig = &BdagChainConfig{
 		ChainID: big.NewInt(24173),
 	}
-	BdagPrivnetChainConfig = &BdagChainConfig{
+	BdagDevnetChainConfig = &BdagChainConfig{
 		ChainID: big.NewInt(8008),
 	}
 )
@@ -32,6 +32,7 @@ func init() {
 	NetworkNames[BdagTestnetChainConfig.ChainID.String()] = "bdag-test"
 	NetworkNames[BdagMixnetChainConfig.ChainID.String()] = "bdag-mix"
 	NetworkNames[BdagPrivnetChainConfig.ChainID.String()] = "bdag-priv"
+	NetworkNames[BdagDevnetChainConfig.ChainID.String()] = "bdag-priv"
 
 }
 
@@ -39,7 +40,9 @@ func IsBdagNetwork(chainID *big.Int) bool {
 	if chainID.Cmp(BdagMainnetChainConfig.ChainID) == 0 ||
 		chainID.Cmp(BdagTestnetChainConfig.ChainID) == 0 ||
 		chainID.Cmp(BdagMixnetChainConfig.ChainID) == 0 ||
-		chainID.Cmp(BdagPrivnetChainConfig.ChainID) == 0 {
+		chainID.Cmp(BdagPrivnetChainConfig.ChainID) == 0 ||
+		chainID.Cmp(BdagDevnetChainConfig.ChainID) == 0
+	{
 		return true
 	}
 	return false
