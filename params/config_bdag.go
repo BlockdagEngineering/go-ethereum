@@ -41,8 +41,7 @@ func IsBdagNetwork(chainID *big.Int) bool {
 		chainID.Cmp(BdagTestnetChainConfig.ChainID) == 0 ||
 		chainID.Cmp(BdagMixnetChainConfig.ChainID) == 0 ||
 		chainID.Cmp(BdagPrivnetChainConfig.ChainID) == 0 ||
-		chainID.Cmp(BdagDevnetChainConfig.ChainID) == 0
-	{
+		chainID.Cmp(BdagDevnetChainConfig.ChainID) == 0 {
 		return true
 	}
 	return false

@@ -1,9 +1,8 @@
 module github.com/ethereum/go-ethereum
 
-go 1.22.3
+go 1.26.0
 
 require (
-	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.2.0
 	github.com/BlockdagNetworkLabs/go-secp256k1 v0.0.0-20240916154125-65fab5a64670
 	github.com/Microsoft/go-winio v0.6.1
 	github.com/VictoriaMetrics/fastcache v1.12.1
@@ -25,8 +24,6 @@ require (
 	github.com/ethereum/c-kzg-4844 v1.0.0
 	github.com/fatih/color v1.13.0
 	github.com/ferranbt/fastssz v0.1.2
-	github.com/fjl/gencodec v0.0.0-20230517082657-f9840df7b83e
-	github.com/fjl/memsize v0.0.2
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/gballet/go-libpcsclite v0.0.0-20190607065134-2772fd86a8ff
 	github.com/gballet/go-verkle v0.1.1-0.20231031103413-a67434b50f46
@@ -63,24 +60,22 @@ require (
 	github.com/shirou/gopsutil v3.21.4-0.20210419000835-c7a38de76ee5+incompatible
 	github.com/status-im/keycard-go v0.2.0
 	github.com/stretchr/testify v1.8.4
-	github.com/supranational/blst v0.3.11
+	github.com/supranational/blst v0.3.16
 	github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
 	github.com/tyler-smith/go-bip39 v1.1.0
 	github.com/urfave/cli/v2 v2.25.7
 	go.uber.org/automaxprocs v1.5.2
-	golang.org/x/crypto v0.22.0
-	golang.org/x/sync v0.7.0
-	golang.org/x/sys v0.19.0
-	golang.org/x/text v0.14.0
+	golang.org/x/crypto v0.48.0
+	golang.org/x/sync v0.19.0
+	golang.org/x/sys v0.41.0
+	golang.org/x/text v0.34.0
 	golang.org/x/time v0.5.0
-	golang.org/x/tools v0.20.0
+	golang.org/x/tools v0.42.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
-	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.7.0 // indirect
-	github.com/Azure/azure-sdk-for-go/sdk/internal v1.3.0 // indirect
 	github.com/DataDog/zstd v1.4.5 // indirect
 	github.com/StackExchange/wmi v1.2.1 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.13.13 // indirect
@@ -104,7 +99,6 @@ require (
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1 // indirect
 	github.com/deepmap/oapi-codegen v1.6.0 // indirect
 	github.com/dlclark/regexp2 v1.7.0 // indirect
-	github.com/garslo/gogen v0.0.0-20170306192744-1d203ffc1f61 // indirect
 	github.com/getsentry/sentry-go v0.18.0 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
@@ -141,8 +135,8 @@ require (
 	github.com/tklauser/numcpus v0.6.1 // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
 	golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa // indirect
-	golang.org/x/mod v0.17.0 // indirect
-	golang.org/x/net v0.24.0 // indirect
+	golang.org/x/mod v0.33.0 // indirect
+	golang.org/x/net v0.50.0 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	rsc.io/tmplfunc v0.0.3 // indirect

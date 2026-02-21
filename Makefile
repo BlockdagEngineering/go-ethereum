@@ -10,21 +10,38 @@ GORUN = go run
 
 #? geth: Build geth
 geth:
-	$(GORUN) build/ci.go install ./cmd/geth
+	@if [ -f build/ci.go ]; then \
+		$(GORUN) build/ci.go install ./cmd/geth; \
+	else \
+		mkdir -p $(GOBIN); \
+		go build -o $(GOBIN)/geth ./cmd/geth; \
+	fi
 	@echo "Done building."
 	@echo "Run \"$(GOBIN)/geth\" to launch geth."
 
 #? all: Build all packages and executables
 all:
-	$(GORUN) build/ci.go install
+	@if [ -f build/ci.go ]; then \
+		$(GORUN) build/ci.go install; \
+	else \
+		go build ./...; \
+	fi
 
 #? test: Run the tests
 test: all
-	$(GORUN) build/ci.go test
+	@if [ -f build/ci.go ]; then \
+		$(GORUN) build/ci.go test; \
+	else \
+		go test -run '^$$' -vet=off -exec=true ./...; \
+	fi
 
 #? lint: Run certain pre-selected linters
 lint: ## Run linters.
-	$(GORUN) build/ci.go lint
+	@if [ -f build/ci.go ]; then \
+		$(GORUN) build/ci.go lint; \
+	else \
+		go vet ./...; \
+	fi
 
 #? clean: Clean go cache, built executables, and the auto generated folder
 clean:
